@@ -16,5 +16,6 @@ public class ReadXml {
         logger.info("============= XML >>>> Java String Array ==================");
 
 
+        System.out.println("test");
     }
 }
