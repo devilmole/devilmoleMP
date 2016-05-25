@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/devilmoe-root.iml" filepath="$PROJECT_DIR$/devilmoe-root.iml" />
+      <module fileurl="file://$PROJECT_DIR$/devilmole-data/devilmole-data.iml" filepath="$PROJECT_DIR$/devilmole-data/devilmole-data.iml" />
       <module fileurl="file://$PROJECT_DIR$/devilmole-web/devilmole-web.iml" filepath="$PROJECT_DIR$/devilmole-web/devilmole-web.iml" />
     </modules>
   </component>

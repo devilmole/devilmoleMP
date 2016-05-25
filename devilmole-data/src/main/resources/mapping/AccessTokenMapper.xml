@@ -1,0 +1,14 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.devilmole.data.dao.AccessTokenMapper">
+
+    <select id="test" resultType="java.lang.Integer">
+        select count(*) from devilmole_mp.wp_accessToken
+    </select>
+
+    <insert id="newLog">
+        insert into wp_accessToken(ID,ACCESS_TOKEN,EXPIRE_TIME) VALUES ('12','12312312a啊','2016-01-05 12:43:11')
+    </insert>
+</mapper>
