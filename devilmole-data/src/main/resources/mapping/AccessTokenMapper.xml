@@ -4,11 +4,17 @@
 
 <mapper namespace="cn.com.devilmole.data.dao.AccessTokenMapper">
 
-    <select id="test" resultType="java.lang.Integer">
-        select count(*) from devilmole_mp.wp_accessToken
-    </select>
+    <resultMap id="accessTokenResult" type="cn.com.devilmole.model.token.AccessTokenResp">
+        <result column="EXPIRE_TIME" property="expireTime" jdbcType="TIMESTAMP" />
+        <result column="ACCESS_TOKEN" property="access_token" jdbcType="VARCHAR" />
+    </resultMap>
 
-    <insert id="newLog">
-        insert into wp_accessToken(ID,ACCESS_TOKEN,EXPIRE_TIME) VALUES ('12','12312312a啊','2016-01-05 12:43:11')
+    <insert id="newAccessToken">
+        insert into wp_accessToken(ACCESS_TOKEN,EXPIRE_TIME) VALUES
+        (#{access_token},#{expireTime})
     </insert>
+
+    <select id="getAccessToken" resultMap="accessTokenResult">
+        SELECT * FROM devilmole_mp.wp_accessToken order by EXPIRE_TIME desc limit 1
+    </select>
 </mapper>

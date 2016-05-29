@@ -1,7 +1,10 @@
 package cn.com.devilmole.controller;
 
+import cn.com.devilmole.data.service.MessageService;
+import cn.com.devilmole.model.message.TextMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +25,9 @@ import java.util.Map;
 public class IndexController {
 
     private static final Logger logger = LoggerFactory.getLogger(IndexController.class);
+
+    @Autowired
+    private MessageService messageService;
 
     @RequestMapping(value = "/index")
     public String index(Locale locale, Model model) {
@@ -51,12 +57,19 @@ public class IndexController {
         return "home";
     }
 
-        @RequestMapping("/testInput")
+    @RequestMapping("/testInput")
     @ResponseBody
     public Map testInput(Model model, @RequestParam(value = "lalala") String source){
         logger.info("source---"+source);
         Map result=new HashMap();
         result.put("detail","中文内容");
+        TextMessage entity=new TextMessage();
+        entity.setMsgId("6289946169080149103");
+        entity.setContent("ad阿迪沙发舒服");
+        entity.setFromUserName("ofAqCwnhFIOuQ6SgIko0bZg_ngHo");
+        entity.setToUserName("gh_f454e36456b5");
+        entity.setCreateTime("1464492215");
+        messageService.DealMessage(entity);
         return result;
     }
 

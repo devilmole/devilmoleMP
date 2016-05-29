@@ -11,6 +11,8 @@
     <modules>
         <module>devilmole-web</module>
         <module>devilmole-data</module>
+        <module>devilmole-model</module>
+        <module>devilmole-httpclient</module>
     </modules>
 
     <properties>
@@ -50,7 +52,6 @@
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-jdbc</artifactId>
                 <version>${org.springframework-version}</version>
-                <scope>provided</scope>
             </dependency>
 
             <!-- AspectJ -->
@@ -227,5 +228,19 @@
         </dependencies>
     </dependencyManagement>
 
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <maven.log.location>/Users/devilmole/tools/logs/mylocalApp.log</maven.log.location>
+            </properties>
+        </profile>
+        <profile>
+            <id>product</id>
+            <properties>
+                <maven.log.location>/usr/share/tomcat/logs/myapp.log</maven.log.location>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

@@ -30,11 +30,17 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="devilmole-data" />
+        <module name="devilmole-httpclient" />
+        <module name="devilmole-model" />
+        <module name="devilmole-mp" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="devilmoe-root" target="1.5" />
       <module name="devilmole-data" target="1.5" />
+      <module name="devilmole-httpclient" target="1.5" />
+      <module name="devilmole-model" target="1.5" />
+      <module name="devilmole-mp" target="1.5" />
       <module name="devilmole-web" target="1.7" />
     </bytecodeTargetLevel>
   </component>

@@ -5,7 +5,10 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import cn.com.devilmole.data.service.MessageService;
+import cn.com.devilmole.model.message.TextMessage;
 import cn.com.devilmole.service.WxAuthService;
+import cn.com.devilmole.util.ParseMPMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +27,10 @@ public class HomeController {
 
     @Autowired
     private WxAuthService authService;
+
+    @Autowired
+    private MessageService messageService;
+
 
     @RequestMapping(method = {RequestMethod.GET})
     public @ResponseBody
@@ -44,20 +51,14 @@ public class HomeController {
     public @ResponseBody
     String post(@RequestBody String requestBody){
         final String source=requestBody;
-        try {
-            String deal1=new String(source.getBytes(),"UTF-8");
-            logger.info("deal1---->"+deal1);
-            String deal2=new String(source.getBytes("ISO8859-1"),"UTF-8");
-            logger.info("deal2---->"+deal2);
-            String deal3=new String(source.getBytes("GBK"),"UTF-8");
-            logger.info("deal3---->"+deal3);
-            String deal4=new String(source.getBytes("UTF-8"),"UTF-8");
-            logger.info("deal4---->"+deal4);
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
+
+        TextMessage entity= ParseMPMessage.parseMessage(source,TextMessage.class);
+        if(entity==null){
+            logger.info("entity---->null");
+        }else{
+            messageService.DealMessage(entity);
         }
-        System.out.println("requestBody--->"+requestBody);
-        logger.info("requestBody--->"+requestBody);
+
         return null;
     }
 

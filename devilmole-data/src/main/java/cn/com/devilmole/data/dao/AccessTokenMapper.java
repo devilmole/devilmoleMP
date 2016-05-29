@@ -1,5 +1,6 @@
 package cn.com.devilmole.data.dao;
 
+import cn.com.devilmole.model.token.AccessTokenResp;
 import org.springframework.stereotype.Component;
 
 /**
@@ -8,7 +9,8 @@ import org.springframework.stereotype.Component;
 @Component
 public interface AccessTokenMapper {
 
-    int test();
+    int newAccessToken(AccessTokenResp accessTokenResp);
 
-    int newLog();
+    AccessTokenResp getAccessToken();
+
 }
