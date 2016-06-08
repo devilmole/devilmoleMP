@@ -26,7 +26,8 @@ public class TestMpUtil {
 
     @Test
     public void testAccessToken() throws Exception {
-        tool.createMenu();
+//        tool.createMenu();
+        System.out.println("test");
     }
 
 

@@ -1,0 +1,20 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.devilmole.data.dao.ClassInfoMapper">
+
+    <resultMap id="ClassBasicResult" type="cn.com.devilmole.model.banana.ClassBasic">
+        <result column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="EXPECT_MAX" property="expectMax" jdbcType="NUMERIC" />
+        <result column="CLASS_DAY" property="classDay" jdbcType="VARCHAR" />
+        <result column="CLASS_TIME" property="classTime" jdbcType="VARCHAR" />
+        <result column="START_HOLD" property="starterHold" jdbcType="VARCHAR" />
+        <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <insert id="newClassInfo">
+        insert into T_INFO_CLASS_BASIC (EXPECT_MAX, CLASS_DAY, CLASS_TIME, START_HOLD, CREATE_TIME) VALUES
+        (#{expectMax,jdbcType=NUMERIC},#{classDay,jdbcType=VARCHAR},#{classTime,jdbcType=VARCHAR},#{starterHold,jdbcType=VARCHAR},sysdate())
+    </insert>
+</mapper>
