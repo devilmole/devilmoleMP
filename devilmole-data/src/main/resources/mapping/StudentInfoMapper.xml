@@ -15,9 +15,52 @@
         <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
     </resultMap>
 
+    <resultMap id="StudentTimeResult" type="cn.com.devilmole.model.banana.StudentTime">
+        <result column="ID" property="id" jdbcType="VARCHAR" />
+        <result column="MP_CODE" property="mpCode" jdbcType="VARCHAR" />
+        <result column="STUDENT_ID" property="studentId" jdbcType="VARCHAR" />
+        <result column="PLACE_OFFER" property="placeOffer" jdbcType="BOOLEAN" />
+        <result column="MONDAY_1" property="monday1" jdbcType="BOOLEAN" />
+        <result column="MONDAY_2" property="monday2" jdbcType="BOOLEAN" />
+        <result column="MONDAY_3" property="monday3" jdbcType="BOOLEAN" />
+        <result column="TUESDAY_1" property="tuesday1" jdbcType="BOOLEAN" />
+        <result column="TUESDAY_2" property="tuesday2" jdbcType="BOOLEAN" />
+        <result column="TUESDAY_3" property="tuesday3" jdbcType="BOOLEAN" />
+        <result column="WEDNESDAY_1" property="wednesday1" jdbcType="BOOLEAN" />
+        <result column="WEDNESDAY_2" property="wednesday2" jdbcType="BOOLEAN" />
+        <result column="WEDNESDAY_3" property="wednesday3" jdbcType="BOOLEAN" />
+        <result column="THURSDAY_1" property="thursday1" jdbcType="BOOLEAN" />
+        <result column="THURSDAY_2" property="thursday2" jdbcType="BOOLEAN" />
+        <result column="THURSDAY_3" property="thursday3" jdbcType="BOOLEAN" />
+        <result column="FRIDAY_1" property="friday1" jdbcType="BOOLEAN" />
+        <result column="FRIDAY_2" property="friday2" jdbcType="BOOLEAN" />
+        <result column="FRIDAY_3" property="friday3" jdbcType="BOOLEAN" />
+        <result column="SATURDAY_1" property="saturday1" jdbcType="BOOLEAN" />
+        <result column="SATURDAY_2" property="saturday2" jdbcType="BOOLEAN" />
+        <result column="SATURDAY_3" property="saturday3" jdbcType="BOOLEAN" />
+        <result column="SUNDAY_1" property="sunday1" jdbcType="BOOLEAN" />
+        <result column="SUNDAY_2" property="sunday2" jdbcType="BOOLEAN" />
+        <result column="SUNDAY_3" property="sunday3" jdbcType="BOOLEAN" />
+        <result column="UPDATE_TIME" property="updateTime" jdbcType="VARCHAR" />
+    </resultMap>
+
     <insert id="newStudentInfo">
         insert into T_INFO_STUDENT_BASIC (STUDENT_NAME, STUDENT_GENDER, STUDENT_BIRTHDAY, MOBILE, MP_CODE, STUDENT_LEVEL,CREATE_TIME) VALUES
         (#{studentName,jdbcType=VARCHAR},#{studentGender,jdbcType=VARCHAR},str_to_date(#{birthDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%S'),#{mobile,jdbcType=VARCHAR},
         #{mpCode,jdbcType=VARCHAR},#{studentLevel,jdbcType=VARCHAR},sysdate())
     </insert>
+
+    <insert id="newStudentTimeInfo">
+        INSERT INTO T_INFO_STUDENT_TIME(MP_CODE, STUDENT_ID, PLACE_OFFER, MONDAY_1, MONDAY_2, MONDAY_3, TUESDAY_1, TUESDAY_2, TUESDAY_3,
+        WEDNESDAY_1, WEDNESDAY_2, WEDNESDAY_3, THURSDAY_1, THURSDAY_2, THURSDAY_3, FRIDAY_1, FRIDAY_2, FRIDAY_3, SATURDAY_1, SATURDAY_2, SATURDAY_3,
+        SUNDAY_1, SUNDAY_2, SUNDAY_3, UPDATE_TIME) VALUES
+        (#{mpCode,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, #{placeOffer,jdbcType=BOOLEAN}, #{monday1,jdbcType=BOOLEAN}, #{monday2,jdbcType=BOOLEAN}, #{monday3,jdbcType=BOOLEAN},
+        #{tuesday1,jdbcType=BOOLEAN}, #{tuesday2,jdbcType=BOOLEAN}, #{tuesday3,jdbcType=BOOLEAN}, #{wednesday1,jdbcType=BOOLEAN}, #{wednesday2,jdbcType=BOOLEAN}, #{wednesday3,jdbcType=BOOLEAN},
+        #{thursday1,jdbcType=BOOLEAN}, #{thursday2,jdbcType=BOOLEAN}, #{thursday3,jdbcType=BOOLEAN}, #{friday1,jdbcType=BOOLEAN}, #{friday2,jdbcType=BOOLEAN}, #{friday3,jdbcType=BOOLEAN},
+         #{saturday1,jdbcType=BOOLEAN}, #{saturday2,jdbcType=BOOLEAN}, #{saturday3,jdbcType=BOOLEAN}, #{sunday1,jdbcType=BOOLEAN}, #{sunday2,jdbcType=BOOLEAN}, #{sunday3,jdbcType=BOOLEAN}, sysdate())
+    </insert>
+
+    <select id="getStudentTimeByMpCode" resultMap="StudentTimeResult">
+        select * from T_INFO_STUDENT_TIME where MP_CODE=#{mpCode};
+    </select>
 </mapper>

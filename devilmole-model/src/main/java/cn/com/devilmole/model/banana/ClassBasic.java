@@ -1,7 +1,9 @@
 package cn.com.devilmole.model.banana;
 
 /**
+ *
  * 班级基础信息
+ * 暂不使用
  * Created by devilmole on 16/6/6.
  */
 public class ClassBasic {

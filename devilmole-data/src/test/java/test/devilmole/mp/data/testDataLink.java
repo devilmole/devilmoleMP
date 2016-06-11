@@ -37,8 +37,9 @@ public class testDataLink {
         message.setFromUserName("from");
         message.setCreateTime(String.valueOf(date.getTime()));
         message.setCreateTimeDate(date);
-//        System.out.println("------>"+messageService.toString());
-//        System.out.println("------------>" + mapper.toString());
+        System.out.println("------>"+messageService.toString());
+        System.out.println("------>"+messageService.toString());
+        System.out.println("------------>" + mapper.toString());
 //        int a=messageService.DealMessage(message);
 
     }

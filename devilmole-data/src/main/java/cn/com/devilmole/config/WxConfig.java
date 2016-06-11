@@ -41,6 +41,15 @@ public class WxConfig {
 	private @Value("#{wxProperties.wx_groups_members_update_url}") String groupsMembersUpdateUrl;
 
 	private @Value("#{wxProperties.wx_accessToken}") String accessToken;
+	private @Value("#{wxProperties.wx_web_access_token_url}") String webAccessTokenUrl;
+
+	public String getWebAccessTokenUrl() {
+		return webAccessTokenUrl;
+	}
+
+	public void setWebAccessTokenUrl(String webAccessTokenUrl) {
+		this.webAccessTokenUrl = webAccessTokenUrl;
+	}
 
 	public String getAccessToken() {
 		return accessToken;

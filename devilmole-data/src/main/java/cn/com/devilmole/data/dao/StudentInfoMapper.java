@@ -1,6 +1,7 @@
 package cn.com.devilmole.data.dao;
 
 import cn.com.devilmole.model.banana.StudentBasic;
+import cn.com.devilmole.model.banana.StudentTime;
 import org.springframework.stereotype.Component;
 
 /**
@@ -10,5 +11,9 @@ import org.springframework.stereotype.Component;
 public interface StudentInfoMapper {
 
     int newStudentInfo(StudentBasic studentBasic);
+
+    int newStudentTimeInfo(StudentTime studentTime);
+
+    StudentTime getStudentTimeByMpCode(String mpCode);
 
 }

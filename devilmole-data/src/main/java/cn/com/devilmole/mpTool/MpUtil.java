@@ -4,6 +4,7 @@ import cn.com.devilmole.config.WxConfig;
 import cn.com.devilmole.http.HttpClientUtil;
 import cn.com.devilmole.model.menu.Menu;
 import cn.com.devilmole.model.token.AccessTokenResp;
+import cn.com.devilmole.model.token.WebAccessTokenResp;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -46,6 +47,18 @@ public class MpUtil {
         return access.getAccess_token();
     }
 
+    public WebAccessTokenResp getWebAccessToken(String code) throws IOException {
+        Map params=new HashMap();
+        params.put("grant_type","authorization_code");
+        params.put("appid",config.getAppid());
+        params.put("secret",config.getAppsecret());
+        params.put("code",code);
+        String url=config.getWebAccessTokenUrl();
+        String result=util.getHttpWithParam(url,params);
+        WebAccessTokenResp res=JSON.parseObject(result,WebAccessTokenResp.class);
+        return res;
+    }
+
     public void createMenu() throws Exception {
 
         logger.info("createMenu------>");
@@ -72,12 +85,12 @@ public class MpUtil {
 
         Menu node21=new Menu();
         node21.setType("view");
-        node21.setName("外链");
-        node21.setUrl("http://www.baidu.com");
+        node21.setName("直接跳");
+        node21.setUrl("http://mp.whitehorseprince.com/test/page/formPage");
         Menu node22=new Menu();
         node22.setType("view");
-        node22.setName("内链");
-        node22.setUrl("http://115.159.206.167/test/page/formPage");
+        node22.setName("授权");
+        node22.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx60841f4ca3be8348&redirect_uri=http%3A%2F%2Fmp.whitehorseprince.com%2Ftest%2Fpage%2FformPage&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
         Menu node23=new Menu();
         node23.setType("click");
         node23.setName("点赞按钮");

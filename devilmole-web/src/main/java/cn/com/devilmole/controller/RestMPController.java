@@ -1,10 +1,5 @@
 package cn.com.devilmole.controller;
 
-import java.io.UnsupportedEncodingException;
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.Locale;
-
 import cn.com.devilmole.data.service.MessageService;
 import cn.com.devilmole.model.message.TextMessage;
 import cn.com.devilmole.service.WxAuthService;
@@ -13,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -21,9 +15,9 @@ import org.springframework.web.bind.annotation.*;
  */
 @Controller
 @RequestMapping("/rest/devilmole")
-public class HomeController {
+public class RestMPController {
 
-    private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(RestMPController.class);
 
     @Autowired
     private WxAuthService authService;
