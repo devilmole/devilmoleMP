@@ -14,7 +14,43 @@ public class StudentBasic {
     private String home1;
     private String mpCode;//微信号
     private String studentLevel;//学生基础
+    private String demand;
+    private int locationId;//所在省市区id
+    private String locationName;
+    private String locationOthers;//详细地址
     private String createTime;
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public int getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(int locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationOthers() {
+        return locationOthers;
+    }
+
+    public void setLocationOthers(String locationOthers) {
+        this.locationOthers = locationOthers;
+    }
+
+    public String getDemand() {
+        return demand;
+    }
+
+    public void setDemand(String demand) {
+        this.demand = demand;
+    }
 
     public String getId() {
         return id;

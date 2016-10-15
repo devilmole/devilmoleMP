@@ -235,6 +235,23 @@
             <properties>
                 <maven.log.location>/Users/devilmole/tools/logs/mylocalApp.log</maven.log.location>
                 <maven.jdbc.url>jdbc:mysql://localhost:3306/devilmole_mp</maven.jdbc.url>
+                <maven.jdbc.username>root</maven.jdbc.username>
+                <maven.jdbc.password>shb_201318</maven.jdbc.password>
+                <maven.wx_token>shb_yuechiyuepang</maven.wx_token>
+                <maven.wx_appid>wx60841f4ca3be8348</maven.wx_appid>
+                <maven.wx_appsecret>1980821e4cc622bb094d25ba698f0aa5</maven.wx_appsecret>
+            </properties>
+        </profile>
+        <profile>
+            <id>test</id>
+            <properties>
+                <maven.log.location>/app/test/log/mp_test.log</maven.log.location>
+                <maven.jdbc.url>jdbc:mysql://10.66.157.27:3306/devilmole_mp</maven.jdbc.url>
+                <maven.jdbc.username>root</maven.jdbc.username>
+                <maven.jdbc.password>whp-devil-0170</maven.jdbc.password>
+                <maven.wx_token>shb_yuechiyuepang</maven.wx_token>
+                <maven.wx_appid>wx60841f4ca3be8348</maven.wx_appid>
+                <maven.wx_appsecret>1980821e4cc622bb094d25ba698f0aa5</maven.wx_appsecret>
 
             </properties>
         </profile>
@@ -242,7 +259,12 @@
             <id>product</id>
             <properties>
                 <maven.log.location>/app/log/webLog.log</maven.log.location>
-                <maven.jdbc.url>jdbc:mysql://10.66.102.168:3306/devilmole_mp</maven.jdbc.url>
+                <maven.jdbc.url>jdbc:mysql://10.66.157.27:3306/whp-mp</maven.jdbc.url>
+                <maven.jdbc.username>root</maven.jdbc.username>
+                <maven.jdbc.password>whp-devil-0170</maven.jdbc.password>
+                <maven.wx_token>yaofacai_2017_fighting</maven.wx_token>
+                <maven.wx_appid>wx4a268c507204e06d</maven.wx_appid>
+                <maven.wx_appsecret>4d7dfe98f00cadc5d14d348b620c7c78</maven.wx_appsecret>
             </properties>
         </profile>
     </profiles>

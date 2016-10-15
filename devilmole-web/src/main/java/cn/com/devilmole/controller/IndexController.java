@@ -73,4 +73,10 @@ public class IndexController {
         return result;
     }
 
+    @RequestMapping("/default/jweixin")
+    public String jweixin(){
+
+        return "default/jweixin";
+    }
+
 }

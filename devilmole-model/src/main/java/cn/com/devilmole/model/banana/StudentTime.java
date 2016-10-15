@@ -9,6 +9,7 @@ public class StudentTime {
     private String id;
     private String mpCode;
     private String studentId;
+    private int classMaxPeole;
     private boolean placeOffer;
     private String updateTime;
     private boolean monday1;
@@ -32,6 +33,14 @@ public class StudentTime {
     private boolean sunday1;
     private boolean sunday2;
     private boolean sunday3;
+
+    public int getClassMaxPeole() {
+        return classMaxPeole;
+    }
+
+    public void setClassMaxPeole(int classMaxPeole) {
+        this.classMaxPeole = classMaxPeole;
+    }
 
     public boolean isTuesday1() {
         return tuesday1;

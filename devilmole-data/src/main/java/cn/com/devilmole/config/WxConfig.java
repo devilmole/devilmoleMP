@@ -40,8 +40,16 @@ public class WxConfig {
 	private @Value("#{wxProperties.wx_groups_update_url}") String groupsUpdateUrl;
 	private @Value("#{wxProperties.wx_groups_members_update_url}") String groupsMembersUpdateUrl;
 
-	private @Value("#{wxProperties.wx_accessToken}") String accessToken;
 	private @Value("#{wxProperties.wx_web_access_token_url}") String webAccessTokenUrl;
+	private @Value("#{wxProperties.wx_web_jsapi_ticket_url}") String webJSapiTicketUrl;
+
+	public String getWebJSapiTicketUrl() {
+		return webJSapiTicketUrl;
+	}
+
+	public void setWebJSapiTicketUrl(String webJSapiTicketUrl) {
+		this.webJSapiTicketUrl = webJSapiTicketUrl;
+	}
 
 	public String getWebAccessTokenUrl() {
 		return webAccessTokenUrl;
@@ -49,14 +57,6 @@ public class WxConfig {
 
 	public void setWebAccessTokenUrl(String webAccessTokenUrl) {
 		this.webAccessTokenUrl = webAccessTokenUrl;
-	}
-
-	public String getAccessToken() {
-		return accessToken;
-	}
-
-	public void setAccessToken(String accessToken) {
-		this.accessToken = accessToken;
 	}
 
 	public String getToken() {

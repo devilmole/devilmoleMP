@@ -1,0 +1,24 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.com.devilmole.data.dao.SystemDictionMapper">
+
+    <resultMap id="AreaDictionResult" type="cn.com.devilmole.model.system.AreaDiction">
+        <result column="ID" property="id" jdbcType="NUMERIC" />
+        <result column="PARENT_ID" property="parentId" jdbcType="NUMERIC" />
+        <result column="LEVEL" property="level" jdbcType="NUMERIC" />
+        <result column="NAME" property="name" jdbcType="VARCHAR" />
+        <result column="MERGER_NAME" property="mergerName" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <select id="getAreaDictionByParentId" resultMap="AreaDictionResult">
+        select * from lkk_cnarea t where t.parent_id=#{parentId} order by t.order_show desc
+    </select>
+    <select id="getAreaDictionByLevel" resultMap="AreaDictionResult">
+        select * from lkk_cnarea t where t.level=#{level} order by t.order_show desc
+    </select>
+    <select id="getAreaDictionById" resultMap="AreaDictionResult">
+        select * from lkk_cnarea t where t.id=#{id}
+    </select>
+</mapper>

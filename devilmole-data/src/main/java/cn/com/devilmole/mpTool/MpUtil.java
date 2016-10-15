@@ -4,6 +4,7 @@ import cn.com.devilmole.config.WxConfig;
 import cn.com.devilmole.http.HttpClientUtil;
 import cn.com.devilmole.model.menu.Menu;
 import cn.com.devilmole.model.token.AccessTokenResp;
+import cn.com.devilmole.model.token.JSapiTicketResp;
 import cn.com.devilmole.model.token.WebAccessTokenResp;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.*;
 
 /**
@@ -28,11 +30,14 @@ public class MpUtil {
 
     private static AccessTokenResp access;
 
+    private static JSapiTicketResp jsapiTicket;
+
+
     HttpClientUtil util=new HttpClientUtil();
 
     public String getAccessToken() throws IOException {
         if(access!=null&&access.getExpireTime()!=null&&access.getExpireTime().after(new Date())){
-            logger.info("getAccessToken------>"+access.getAccess_token());
+            logger.info("getAccessToken--exist---->"+access.getAccess_token());
             return access.getAccess_token();
         }
         Map params=new HashMap();
@@ -42,9 +47,27 @@ public class MpUtil {
         String url=config.getAccessTokenCreateUrl();
         String result=util.getHttpWithParam(url,params);
         AccessTokenResp newAccess= JSON.parseObject(result,AccessTokenResp.class);
+        newAccess.setExpireTime(TimeUtils.dealTimeBySec(new Date(),newAccess.getExpires_in()));
         access=newAccess;
         logger.info("getAccessToken------>"+access.getAccess_token());
         return access.getAccess_token();
+    }
+
+    public String getJSapiToken() throws IOException {
+        if(jsapiTicket!=null&& jsapiTicket.getExpireTime()!=null&&jsapiTicket.getExpireTime().after(new Date())){
+            logger.info("getJSapiToken--exist---->"+jsapiTicket.getTicket());
+            return jsapiTicket.getTicket();
+        }
+        Map params=new HashMap();
+        params.put("access_token",getAccessToken());
+        params.put("type","jsapi");
+        String url=config.getWebJSapiTicketUrl();
+        String result=util.getHttpWithParam(url,params);
+        JSapiTicketResp newTicket=JSON.parseObject(result,JSapiTicketResp.class);
+        newTicket.setExpireTime(TimeUtils.dealTimeBySec(new Date(),newTicket.getExpires_in()));
+        jsapiTicket=newTicket;
+        logger.info("getJSapiToken------>"+jsapiTicket.getTicket());
+        return jsapiTicket.getTicket();
     }
 
     public WebAccessTokenResp getWebAccessToken(String code) throws IOException {
@@ -74,6 +97,21 @@ public class MpUtil {
     private String getMenuString(){
 
         List <Menu> menuList=new ArrayList<Menu>();
+        Menu root=new Menu();
+        root.setType("view");
+        root.setName("我要拼班");
+        root.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx4a268c507204e06d&redirect_uri=http%3A%2F%2Fmp.whitehorseprince.com%2Fwhitehorseprince%2Fpage%2FformPage&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
+
+        menuList.add(root);
+
+        JSONObject target=new JSONObject();
+        target.put("button",JSON.toJSON(menuList));
+        return target.toString();
+    }
+
+    private String getMenuStringOrigin(){
+
+        List <Menu> menuList=new ArrayList<Menu>();
         Menu root1=new Menu();
         root1.setType("click");
         root1.setName("今日歌曲");
@@ -89,7 +127,7 @@ public class MpUtil {
         node21.setUrl("http://mp.whitehorseprince.com/test/page/formPage");
         Menu node22=new Menu();
         node22.setType("view");
-        node22.setName("授权");
+        node22.setName("我要拼班");
         node22.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx60841f4ca3be8348&redirect_uri=http%3A%2F%2Fmp.whitehorseprince.com%2Ftest%2Fpage%2FformPage&response_type=code&scope=snsapi_base&state=123#wechat_redirect");
         Menu node23=new Menu();
         node23.setType("click");

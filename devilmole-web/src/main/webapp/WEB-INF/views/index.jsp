@@ -3,7 +3,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>首页</title>
   </head>
   <body>
   Hello world3! 中文测试 啦啦啦
@@ -14,6 +14,9 @@
   </body>
 </html>
 <script src="${ctx}/resources/js/jquery-1.12.3.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="${ctx}/resources/js/shareFunction.js"></script>
+
 <script language="javascript">
   function goto(){
     $.ajax({
@@ -25,4 +28,32 @@
       }
     });
   }
+  $(function(){
+    console.log("location.href2",location.href);
+    $.ajax({
+      url:"${ctx}/function/getSignature",
+      dataType:"json",
+      data:"url="+location.href,
+      success:function(result){
+        console.log("result---->",result);
+
+        wx.config({
+          debug: true,
+          appId: result.appId,
+          timestamp: result.timestamp,
+          nonceStr: result.nonceStr,
+          signature: result.signature,
+          jsApiList: [
+            'checkJsApi',
+            'onMenuShareTimeline',
+            'onMenuShareAppMessage',
+            'onMenuShareQQ',
+            'onMenuShareWeibo',
+            'onMenuShareQZone'
+          ]
+        });
+
+      }
+    });
+  });
 </script>

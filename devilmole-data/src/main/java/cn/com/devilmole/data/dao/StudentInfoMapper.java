@@ -14,6 +14,16 @@ public interface StudentInfoMapper {
 
     int newStudentTimeInfo(StudentTime studentTime);
 
+    int checkStudentInfoByMPCode(String mpCode);
+
     StudentTime getStudentTimeByMpCode(String mpCode);
+
+    int updateStudentInfo(StudentBasic studentBasic);
+
+    int checkStudentTimeByMPCode(String mpCode);
+
+    StudentBasic getStudentInfoByMPCode(String mpCode);
+
+    int updateStudentTime(StudentTime studentTime);
 
 }

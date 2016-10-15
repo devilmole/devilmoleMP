@@ -12,13 +12,18 @@
         <result column="MOBILE" property="mobile" jdbcType="VARCHAR" />
         <result column="MP_CODE" property="mpCode" jdbcType="VARCHAR" />
         <result column="STUDENT_LEVEL" property="studentLevel" jdbcType="VARCHAR" />
+        <result column="STUDENT_DEMAND" property="demand" jdbcType="VARCHAR" />
         <result column="CREATE_TIME" property="createTime" jdbcType="VARCHAR" />
+        <result column="LOCATION_ID" property="locationId" jdbcType="NUMERIC" />
+        <result column="LOCATION_NAME" property="locationName" jdbcType="VARCHAR" />
+        <result column="LOCATION_OTHERS" property="locationOthers" jdbcType="VARCHAR" />
     </resultMap>
 
     <resultMap id="StudentTimeResult" type="cn.com.devilmole.model.banana.StudentTime">
         <result column="ID" property="id" jdbcType="VARCHAR" />
         <result column="MP_CODE" property="mpCode" jdbcType="VARCHAR" />
         <result column="STUDENT_ID" property="studentId" jdbcType="VARCHAR" />
+        <result column="CLASS_MAX_PEOPLE" property="classMaxPeole" jdbcType="NUMERIC" />
         <result column="PLACE_OFFER" property="placeOffer" jdbcType="BOOLEAN" />
         <result column="MONDAY_1" property="monday1" jdbcType="BOOLEAN" />
         <result column="MONDAY_2" property="monday2" jdbcType="BOOLEAN" />
@@ -44,23 +49,154 @@
         <result column="UPDATE_TIME" property="updateTime" jdbcType="VARCHAR" />
     </resultMap>
 
+    <sql id="studentInfo">
+        t.ID,t.STUDENT_NAME,t.STUDENT_GENDER,date_format(t.STUDENT_BIRTHDAY,'%Y-%m-%d') as STUDENT_BIRTHDAY,t.MOBILE,t.MP_CODE,t.STUDENT_LEVEL,t.STUDENT_DEMAND,t.LOCATION_ID,t.LOCATION_OTHERS
+    </sql>
+
+    <sql id="studentTime">
+        t.ID,t.MP_CODE,t.PLACE_OFFER,t.MONDAY_1,t.MONDAY_2,t.MONDAY_3,t.TUESDAY_1,t.TUESDAY_2,t.TUESDAY_3,t.WEDNESDAY_1,t.WEDNESDAY_2,t.WEDNESDAY_3,
+        t.THURSDAY_1,t.THURSDAY_2,t.THURSDAY_3,t.FRIDAY_1,t.FRIDAY_2,t.FRIDAY_3,t.SATURDAY_1,t.SATURDAY_2,t.SATURDAY_3,t.SUNDAY_1,t.SUNDAY_2,t.SUNDAY_3,t.CLASS_MAX_PEOPLE
+    </sql>
+
     <insert id="newStudentInfo">
-        insert into T_INFO_STUDENT_BASIC (STUDENT_NAME, STUDENT_GENDER, STUDENT_BIRTHDAY, MOBILE, MP_CODE, STUDENT_LEVEL,CREATE_TIME) VALUES
+        insert into T_INFO_STUDENT_BASIC (STUDENT_NAME, STUDENT_GENDER, STUDENT_BIRTHDAY, MOBILE, MP_CODE, STUDENT_LEVEL,STUDENT_DEMAND,LOCATION_ID,LOCATION_OTHERS,CREATE_TIME) VALUES
         (#{studentName,jdbcType=VARCHAR},#{studentGender,jdbcType=VARCHAR},str_to_date(#{birthDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%S'),#{mobile,jdbcType=VARCHAR},
-        #{mpCode,jdbcType=VARCHAR},#{studentLevel,jdbcType=VARCHAR},sysdate())
+        #{mpCode,jdbcType=VARCHAR},#{studentLevel,jdbcType=VARCHAR},#{demand,jdbcType=VARCHAR},#{locationId,jdbcType=NUMERIC},#{locationOthers,jdbcType=VARCHAR},sysdate())
     </insert>
 
     <insert id="newStudentTimeInfo">
         INSERT INTO T_INFO_STUDENT_TIME(MP_CODE, STUDENT_ID, PLACE_OFFER, MONDAY_1, MONDAY_2, MONDAY_3, TUESDAY_1, TUESDAY_2, TUESDAY_3,
         WEDNESDAY_1, WEDNESDAY_2, WEDNESDAY_3, THURSDAY_1, THURSDAY_2, THURSDAY_3, FRIDAY_1, FRIDAY_2, FRIDAY_3, SATURDAY_1, SATURDAY_2, SATURDAY_3,
-        SUNDAY_1, SUNDAY_2, SUNDAY_3, UPDATE_TIME) VALUES
+        SUNDAY_1, SUNDAY_2, SUNDAY_3, UPDATE_TIME,CLASS_MAX_PEOPLE) VALUES
         (#{mpCode,jdbcType=VARCHAR}, #{studentId,jdbcType=VARCHAR}, #{placeOffer,jdbcType=BOOLEAN}, #{monday1,jdbcType=BOOLEAN}, #{monday2,jdbcType=BOOLEAN}, #{monday3,jdbcType=BOOLEAN},
         #{tuesday1,jdbcType=BOOLEAN}, #{tuesday2,jdbcType=BOOLEAN}, #{tuesday3,jdbcType=BOOLEAN}, #{wednesday1,jdbcType=BOOLEAN}, #{wednesday2,jdbcType=BOOLEAN}, #{wednesday3,jdbcType=BOOLEAN},
         #{thursday1,jdbcType=BOOLEAN}, #{thursday2,jdbcType=BOOLEAN}, #{thursday3,jdbcType=BOOLEAN}, #{friday1,jdbcType=BOOLEAN}, #{friday2,jdbcType=BOOLEAN}, #{friday3,jdbcType=BOOLEAN},
-         #{saturday1,jdbcType=BOOLEAN}, #{saturday2,jdbcType=BOOLEAN}, #{saturday3,jdbcType=BOOLEAN}, #{sunday1,jdbcType=BOOLEAN}, #{sunday2,jdbcType=BOOLEAN}, #{sunday3,jdbcType=BOOLEAN}, sysdate())
+         #{saturday1,jdbcType=BOOLEAN}, #{saturday2,jdbcType=BOOLEAN}, #{saturday3,jdbcType=BOOLEAN}, #{sunday1,jdbcType=BOOLEAN}, #{sunday2,jdbcType=BOOLEAN}, #{sunday3,jdbcType=BOOLEAN}, sysdate(),#{classMaxPeole,jdbcType=NUMERIC})
     </insert>
 
-    <select id="getStudentTimeByMpCode" resultMap="StudentTimeResult">
-        select * from T_INFO_STUDENT_TIME where MP_CODE=#{mpCode};
+    <select id="getStudentInfoByMPCode" resultMap="StudentBasicResult">
+        select <include refid="studentInfo" />,t2.MERGER_NAME as LOCATION_NAME from T_INFO_STUDENT_BASIC t
+        left join lkk_cnarea t2 on t.LOCATION_ID=t2.id
+        where t.MP_CODE=#{mpCode} order by t.CREATE_TIME desc limit 1
     </select>
+
+    <select id="checkStudentInfoByMPCode" resultType="java.lang.Integer">
+        select count(t.ID) from T_INFO_STUDENT_BASIC t where t.MP_CODE=#{mpCode}
+    </select>
+
+    <update id="updateStudentInfo">
+        update T_INFO_STUDENT_BASIC
+        <set>
+            <if test="studentName !=null and studentName !='' ">
+                STUDENT_NAME = #{studentName} ,
+            </if>
+            <if test="mobile !=null and mobile !='' ">
+                MOBILE = #{mobile} ,
+            </if>
+            <if test="studentGender !=null ">
+                STUDENT_GENDER = #{studentGender} ,
+            </if>
+            <if test="birthDate !=null and  birthDate !='' ">
+                STUDENT_BIRTHDAY = str_to_date(#{birthDate,jdbcType=VARCHAR},'%Y-%m-%d %H:%i:%S%') ,
+            </if>
+            <if test="studentLevel !=null ">
+                STUDENT_LEVEL = #{studentLevel} ,
+            </if>
+            <if test="demand !=null ">
+                STUDENT_DEMAND = #{demand} ,
+            </if>
+            <if test="locationId !=0 ">
+                LOCATION_ID = #{locationId} ,
+            </if>
+            <if test="locationOthers !=null ">
+                LOCATION_OTHERS = #{locationOthers} ,
+            </if>
+        </set>
+        where MP_CODE=#{mpCode}
+    </update>
+
+    <select id="getStudentTimeByMpCode" resultMap="StudentTimeResult">
+        select <include refid="studentTime" /> from T_INFO_STUDENT_TIME t where t.MP_CODE=#{mpCode} order by t.UPDATE_TIME desc limit 1
+    </select>
+
+    <select id="checkStudentTimeByMPCode" resultType="java.lang.Integer">
+        select count(t.ID) from T_INFO_STUDENT_TIME t where t.MP_CODE=#{mpCode}
+    </select>
+
+    <update id="updateStudentTime">
+        update T_INFO_STUDENT_TIME
+        <set>
+            <if test="placeOffer!=null">
+                PLACE_OFFER=#{placeOffer},
+            </if>
+            <if test="monday1!=null">
+                MONDAY_1=#{monday1},
+            </if>
+            <if test="monday2!=null">
+                MONDAY_2=#{monday2},
+            </if>
+            <if test="monday3!=null">
+                MONDAY_3=#{monday3},
+            </if>
+            <if test="tuesday1!=null">
+                TUESDAY_1=#{tuesday1},
+            </if>
+            <if test="tuesday2!=null">
+                TUESDAY_2=#{tuesday2},
+            </if>
+            <if test="tuesday3!=null">
+                TUESDAY_3=#{tuesday3},
+            </if>
+            <if test="wednesday1!=null">
+                WEDNESDAY_1=#{wednesday1},
+            </if>
+            <if test="wednesday2!=null">
+                WEDNESDAY_2=#{wednesday2},
+            </if>
+            <if test="wednesday3!=null">
+                WEDNESDAY_3=#{wednesday3},
+            </if>
+            <if test="thursday1!=null">
+                THURSDAY_1=#{thursday1},
+            </if>
+            <if test="thursday2!=null">
+                THURSDAY_2=#{thursday2},
+            </if>
+            <if test="thursday3!=null">
+                THURSDAY_3=#{thursday3},
+            </if>
+            <if test="friday1!=null">
+                FRIDAY_1=#{friday1},
+            </if>
+            <if test="friday2!=null">
+                FRIDAY_2=#{friday2},
+            </if>
+            <if test="friday3!=null">
+                FRIDAY_3=#{friday3},
+            </if>
+            <if test="saturday1!=null">
+                SATURDAY_1=#{saturday1},
+            </if>
+            <if test="saturday2!=null">
+                SATURDAY_2=#{saturday2},
+            </if>
+            <if test="saturday3!=null">
+                SATURDAY_3=#{saturday3},
+            </if>
+            <if test="sunday1!=null">
+                SUNDAY_1=#{sunday1},
+            </if>
+            <if test="sunday2!=null">
+                SUNDAY_2=#{sunday2},
+            </if>
+            <if test="sunday3!=null">
+                SUNDAY_3=#{sunday3},
+            </if>
+            <if test="classMaxPeole!=null">
+                CLASS_MAX_PEOPLE=#{classMaxPeole},
+            </if>
+
+        </set>
+        where MP_CODE=#{mpCode}
+    </update>
 </mapper>

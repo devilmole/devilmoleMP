@@ -8,5 +8,9 @@ import cn.com.devilmole.model.banana.StudentTime;
  */
 public interface StudentService {
 
-    int newClassForm(StudentBasic studentBasic, StudentTime studentTime);
+    int newClassForm(StudentBasic studentBasic, StudentTime studentTime,String mpCode);
+
+    StudentTime getStudentTimeByMpCode(String mpCode);
+
+    StudentBasic getStudentInfoByMPCode(String mpCode);
 }
