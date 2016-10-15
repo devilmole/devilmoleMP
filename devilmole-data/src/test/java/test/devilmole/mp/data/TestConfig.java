@@ -18,6 +18,6 @@ public class TestConfig {
 
     @Test
     public void testName() throws Exception {
-        System.out.println(config.getToken());
+        System.out.println("token---->"+config.getToken());
     }
 }
